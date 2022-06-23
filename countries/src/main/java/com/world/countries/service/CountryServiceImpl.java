@@ -47,7 +47,7 @@ public class CountryServiceImpl implements CountryService{
 
 
     @Override
-    public CountryListResponseDto getCountriesList(int size, int page) {
+    public CountryListResponseDto getCountriesList(int page, int size) {
         //create pageable
         Pageable pageable = PageRequest.of((page - 1), size);
         //find all return page
