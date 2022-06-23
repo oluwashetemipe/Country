@@ -81,16 +81,16 @@ public class CountryServiceImpl implements CountryService{
 
     @Override
     public CountryListResponseDto findByPartialSearch(SearchCountryRequestDto searchCountryRequestDto,int page,int size) throws CountryException {
-        if(searchCountryRequestDto.getCountryName().isBlank()||searchCountryRequestDto.getCountryName().isEmpty()){
+        if(searchCountryRequestDto.getPartialName().isBlank()||searchCountryRequestDto.getPartialName().isEmpty()){
             throw new CountryException("Country Name Cannot be Empty");
         }
         //create pageable
 
         Pageable pageable = PageRequest.of((page - 1), size);
         //find all return page
-        Page<Country> countries = countryRepository.findByCountryNameContainsIgnoreCase(searchCountryRequestDto.getCountryName(),pageable);
+        Page<Country> countries = countryRepository.findByCountryNameContainsIgnoreCase(searchCountryRequestDto.getPartialName(),pageable);
         //get total size of list
-        int totalSizeOfList = countryRepository.findByCountryNameContainsIgnoreCase(searchCountryRequestDto.getCountryName()).size();
+        int totalSizeOfList = countryRepository.findByCountryNameContainsIgnoreCase(searchCountryRequestDto.getPartialName()).size();
         //get the contents from page
         List<Country> countryList = countries.getContent();
         //create a dto list for contents

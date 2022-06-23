@@ -47,7 +47,7 @@ class CountryServiceImplTest {
     @Transactional
     void testForPartialSearchExceptionally(){
         SearchCountryRequestDto searchCountryRequestDto=new SearchCountryRequestDto();
-        searchCountryRequestDto.setCountryName("");
+        searchCountryRequestDto.setPartialName("");
         assertThrows(CountryException.class,()->countryService.findByPartialSearch(searchCountryRequestDto,1,1));
     }
     @Test
@@ -60,7 +60,7 @@ class CountryServiceImplTest {
         countryService.addCountry(addCountryDto);
         countryService.addCountry(addCountryDto2);
         SearchCountryRequestDto searchCountryRequestDto=new SearchCountryRequestDto();
-        searchCountryRequestDto.setCountryName("I");
+        searchCountryRequestDto.setPartialName("I");
         int size=countryService.findByPartialSearch(searchCountryRequestDto,2,1).getSizeOfList();
        assertEquals(14,size);
     }
@@ -74,7 +74,7 @@ class CountryServiceImplTest {
         countryService.addCountry(addCountryDto);
         countryService.addCountry(addCountryDto2);
         SearchCountryRequestDto searchCountryRequestDto=new SearchCountryRequestDto();
-        searchCountryRequestDto.setCountryName("I");
+        searchCountryRequestDto.setPartialName("I");
         int size=countryService.findByPartialSearch(searchCountryRequestDto,2,12).getCountryListResponseDto().size();
         assertEquals(2,size);
     }

@@ -27,11 +27,21 @@ run: mvn spring-boot:run
 ```
 GET:{{localhost}}country/api/list-all-countries?page={int}&size={int}
 ```
-2. Fetch A list Of All The Countries By Partial Search
+2. Fetch A list Of All The Countries By Partial Search using Json request format
 ```
 GET:{{localhost}}country/api/list-all-countries-by-search/page={int}&size={int}
+```
+```
+{
+..."partialName" : ""
+}
 ```
 3. Add a country to the Database using a Json Request format
 ```
 GET:{{localhost}}country/api/add-country
+```
+```
+{
+..."countryName" : ""
+}
 ```

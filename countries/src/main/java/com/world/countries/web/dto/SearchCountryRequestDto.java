@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class SearchCountryRequestDto {
-    private String countryName;
+    private String partialName;
 }
