@@ -45,53 +45,48 @@ public class CountryServiceImpl implements CountryService{
 
 
 
-//    @Override
-//    public List<Country> getCountriesList(int limit, int offset) {
-//        Pageable pageable = new OffsetBasedPageRequest(limit, offset);
-//        return countryRepository.findAll(pageable).getContent();
-//    }
 
-//    @Override
-//    public CountryListResponseDto getCountriesList(int size, int page) {
-//        //create pageable
-//        Pageable pageable = PageRequest.of((page - 1), size);
-//        //find all return page
-//        Page<Country> countries = countryRepository.findAll(pageable);
-//        //get total size of list
-//        int totalSizeOfList = countryRepository.findAll().size();
-//        //get the contents from page
-//        List<Country> countryList = countries.getContent();
-//        //create a dto list for contents
-//        List<CountryResponseDto> countryResponseDtoArrayList = new ArrayList<>();
-//        for (Country country : countryList) {
-//            //loop through contents
-//            CountryResponseDto countryResponseDto = new CountryResponseDto();
-//            //map contents to dto
-//            modelMapper.map(country, countryResponseDto);
-//            //add dto to dto list
-//            countryResponseDtoArrayList.add(countryResponseDto);
-//        }
-//        //create response object
-//        CountryListResponseDto countryListResponseDto = new CountryListResponseDto();
-//        //set data into response object
-//        countryListResponseDto.setCountryListResponseDto(countryResponseDtoArrayList);
-//        //set data into response object
-//        countryListResponseDto.setSizeOfList(totalSizeOfList);
-//        //return response object
-//        return countryListResponseDto;
-//    }
+    @Override
+    public CountryListResponseDto getCountriesList(int size, int page) {
+        //create pageable
+        Pageable pageable = PageRequest.of((page - 1), size);
+        //find all return page
+        Page<Country> countries = countryRepository.findAll(pageable);
+        //get total size of list
+        int totalSizeOfList = countryRepository.findAll().size();
+        //get the contents from page
+        List<Country> countryList = countries.getContent();
+        //create a dto list for contents
+        List<CountryResponseDto> countryResponseDtoArrayList = new ArrayList<>();
+        for (Country country : countryList) {
+            //loop through contents
+            CountryResponseDto countryResponseDto = new CountryResponseDto();
+            //map contents to dto
+            modelMapper.map(country, countryResponseDto);
+            //add dto to dto list
+            countryResponseDtoArrayList.add(countryResponseDto);
+        }
+        //create response object
+        CountryListResponseDto countryListResponseDto = new CountryListResponseDto();
+        //set data into response object
+        countryListResponseDto.setCountryListResponseDto(countryResponseDtoArrayList);
+        //set data into response object
+        countryListResponseDto.setSizeOfList(totalSizeOfList);
+        //return response object
+        return countryListResponseDto;
+    }
 
 
 
 
     @Override
-    public CountryListResponseDto findByPartialSearch(SearchCountryRequestDto searchCountryRequestDto,int limit,int offset) throws CountryException {
+    public CountryListResponseDto findByPartialSearch(SearchCountryRequestDto searchCountryRequestDto,int page,int size) throws CountryException {
         if(searchCountryRequestDto.getCountryName().isBlank()||searchCountryRequestDto.getCountryName().isEmpty()){
             throw new CountryException("Country Name Cannot be Empty");
         }
         //create pageable
-        Pageable pageable = new OffsetBasedPageRequest(offset, limit);
-//        Pageable pageable = PageRequest.of((page - 1), size);
+
+        Pageable pageable = PageRequest.of((page - 1), size);
         //find all return page
         Page<Country> countries = countryRepository.findByCountryNameContainsIgnoreCase(searchCountryRequestDto.getCountryName(),pageable);
         //get total size of list

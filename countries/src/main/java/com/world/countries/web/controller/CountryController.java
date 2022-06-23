@@ -16,11 +16,23 @@ public class CountryController {
     CountryService countryService;
 
     @GetMapping("/list-all-countries")
-    public ResponseEntity<?> listAllCountries(@RequestParam(value = "page",defaultValue = "1") int limit,
-                                             @RequestParam(value = "size",defaultValue = "3") int offset,@RequestBody SearchCountryRequestDto searchCountryRequestDto) {
+    public ResponseEntity<?> listAllCountries(@RequestParam(value = "page",defaultValue = "1") int page,
+                                              @RequestParam(value = "size",defaultValue = "3") int size) {
         try {
 
-            return new ResponseEntity<>(countryService.findByPartialSearch(searchCountryRequestDto,limit,offset), HttpStatus.OK);
+            return new ResponseEntity<>(countryService.getCountriesList(page,size), HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    @GetMapping("/list-all-countries-by-search")
+    public ResponseEntity<?> listAllCountriesBySearch(@RequestParam(value = "page",defaultValue = "1") int page,
+                                             @RequestParam(value = "size",defaultValue = "3") int size,@RequestBody SearchCountryRequestDto searchCountryRequestDto) {
+        try {
+
+            return new ResponseEntity<>(countryService.findByPartialSearch(searchCountryRequestDto,page,size), HttpStatus.OK);
         } catch (Exception exception) {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 

@@ -35,46 +35,60 @@ class CountryServiceImplTest {
         addCountryDTO.setCountryName("");
         assertThrows(CountryException.class, ()-> countryService.addCountry(addCountryDTO));
     }
-//    @Test
-//    @Transactional
-//    void testToAddCountry() throws CountryException{
-//        AddCountryDto addCountryDto = new AddCountryDto();
-//        addCountryDto.setCountryName("Nigeria");
-//        countryService.addCountry(addCountryDto);
-//        assertEquals("Nigeria", addCountryDto.getCountryName());
-//    }
-//    @Test
-//    @Transactional
-//    void testForPartialSearchExceptionally(){
-//        SearchCountryRequestDto searchCountryRequestDto=new SearchCountryRequestDto();
-//        searchCountryRequestDto.setCountryName("");
-//        assertThrows(CountryException.class,()->countryService.findByPartialSearch(searchCountryRequestDto,1,1));
-//    }
-//    @Test
-//    @Transactional
-//    void testForPartialSearch() throws CountryException {
-//        AddCountryDto addCountryDto=new AddCountryDto();
-//        addCountryDto.setCountryName("Nigeria");
-//        AddCountryDto addCountryDto2=new AddCountryDto();
-//        addCountryDto2.setCountryName("Niger");
-//        countryService.addCountry(addCountryDto);
-//        countryService.addCountry(addCountryDto2);
-//        SearchCountryRequestDto searchCountryRequestDto=new SearchCountryRequestDto();
-//        searchCountryRequestDto.setCountryName("Nig");
-//        int size=countryService.findByPartialSearch(searchCountryRequestDto,1,3).getSizeOfList();
-//       assertEquals(2,size);
-//    }
+    @Test
+    @Transactional
+    void testToAddCountry() throws CountryException{
+        AddCountryDto addCountryDto = new AddCountryDto();
+        addCountryDto.setCountryName("Nigeria");
+        countryService.addCountry(addCountryDto);
+        assertEquals("Nigeria", addCountryDto.getCountryName());
+    }
+    @Test
+    @Transactional
+    void testForPartialSearchExceptionally(){
+        SearchCountryRequestDto searchCountryRequestDto=new SearchCountryRequestDto();
+        searchCountryRequestDto.setCountryName("");
+        assertThrows(CountryException.class,()->countryService.findByPartialSearch(searchCountryRequestDto,1,1));
+    }
+    @Test
+    @Transactional
+    void testForPartialSearchForEntireSize() throws CountryException {
+        AddCountryDto addCountryDto=new AddCountryDto();
+        addCountryDto.setCountryName("Nigeria");
+        AddCountryDto addCountryDto2=new AddCountryDto();
+        addCountryDto2.setCountryName("Niger");
+        countryService.addCountry(addCountryDto);
+        countryService.addCountry(addCountryDto2);
+        SearchCountryRequestDto searchCountryRequestDto=new SearchCountryRequestDto();
+        searchCountryRequestDto.setCountryName("I");
+        int size=countryService.findByPartialSearch(searchCountryRequestDto,2,1).getSizeOfList();
+       assertEquals(14,size);
+    }
+    @Test
+    @Transactional
+    void testForPartialSearchForOffsetSize() throws CountryException {
+        AddCountryDto addCountryDto=new AddCountryDto();
+        addCountryDto.setCountryName("Nigeria");
+        AddCountryDto addCountryDto2=new AddCountryDto();
+        addCountryDto2.setCountryName("Niger");
+        countryService.addCountry(addCountryDto);
+        countryService.addCountry(addCountryDto2);
+        SearchCountryRequestDto searchCountryRequestDto=new SearchCountryRequestDto();
+        searchCountryRequestDto.setCountryName("I");
+        int size=countryService.findByPartialSearch(searchCountryRequestDto,2,12).getCountryListResponseDto().size();
+        assertEquals(2,size);
+    }
 
-//    @Test
-//    @Transactional
-//    void testForGetCountriesList() throws CountryException {
-//        AddCountryDto addCountryDto=new AddCountryDto();
-//        addCountryDto.setCountryName("Nigeria");
-//        AddCountryDto addCountryDto2=new AddCountryDto();
-//        addCountryDto2.setCountryName("Niger");
-//        countryService.addCountry(addCountryDto);
-//        countryService.addCountry(addCountryDto2);
-//        int size=countryService.getCountriesList(1,3).getSizeOfList();
-//        assertEquals(3,size);
-//    }
+    @Test
+    @Transactional
+    void testForGetCountriesList() throws CountryException {
+        int size=countryService.getCountriesList(1,3).getSizeOfList();
+        assertEquals(18,size);
+    }
+    @Test
+    @Transactional
+    void testForGetCountriesListOffsetSize() throws CountryException {
+        int size=countryService.getCountriesList(1,3).getCountryListResponseDto().size();
+        assertEquals(1,size);
+    }
 }

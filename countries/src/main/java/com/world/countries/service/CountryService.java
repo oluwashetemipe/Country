@@ -12,5 +12,6 @@ public interface CountryService {
     Country addCountry(AddCountryDto addCountryDTO) throws CountryException;
 
 
-    CountryListResponseDto findByPartialSearch(SearchCountryRequestDto searchCountryRequestDto,int limit,int offset) throws CountryException;
+    CountryListResponseDto findByPartialSearch(SearchCountryRequestDto searchCountryRequestDto,int page,int size) throws CountryException;
+    CountryListResponseDto getCountriesList(int size, int page);
 }

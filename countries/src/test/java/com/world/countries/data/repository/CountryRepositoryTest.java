@@ -1,8 +1,6 @@
 package com.world.countries.data.repository;
 
 import com.world.countries.data.model.Country;
-import com.world.countries.service.OffsetBasedPageRequest;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +65,7 @@ class CountryRepositoryTest {
         country2.setId(UUID.randomUUID().toString());
         countryRepository.save(country);
         countryRepository.save(country2);
-        Pageable pageable = new OffsetBasedPageRequest(2,2);
+        Pageable pageable = PageRequest.of((0), 2);
         Page<Country> foundCountry=countryRepository.findByCountryNameContainsIgnoreCase("Nig",pageable);
         int countryList=foundCountry.getContent().size();
         assertEquals(2,countryList);
